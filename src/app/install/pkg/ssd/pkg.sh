@@ -2,7 +2,7 @@
 ## SSD.
 ## SSD install package functions.
 ##
-## @package ojullien\bash\app\install\pkg\vimrc
+## @package ojullien\bash\app\install\pkg\ssd
 ## @license MIT <https://github.com/ojullien/bash-install/blob/master/LICENSE>
 ## -----------------------------------------------------------------------------
 
