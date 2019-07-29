@@ -15,7 +15,7 @@ exit 3
 ## User other than root for whom we need to configure
 ## .bashrc, .bash_aliases and vim
 ## -----------------------------------------------------------------------------
-readonly m_INSTALL_USERS=("<user>")
+readonly m_INSTALL_USERS=("<user>") # You may want to update this !!!
 
 ## -----------------------------------------------------
 ## Packages

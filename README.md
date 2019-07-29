@@ -15,6 +15,7 @@ Requires: a Debian/Ubuntu version of linux and a Bash version ~4.4. [bash-sys](h
 1. [Download a release](https://github.com/ojullien/bash-install/releases) or clone this repository.
 2. Use [scripts/install.sh](scripts/install.sh) to automatically install the application in the /opt/oju/bash project folder.
 3. If needed, add `PATH="$PATH:/opt/oju/bash/bin"` to the .profile files.
+4. Update the [config.sh](src/app/install/config.sh) configuration file.
 
 ## Features
 
