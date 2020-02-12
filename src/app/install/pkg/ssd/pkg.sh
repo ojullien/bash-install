@@ -7,11 +7,6 @@
 ## -----------------------------------------------------------------------------
 
 ## -----------------------------------------------------------------------------
-## Constants
-## -----------------------------------------------------------------------------
-readonly m_INSTALL_SSD_FSTRIM_CRON="/etc/cron.weekly/fstrim"
-
-## -----------------------------------------------------------------------------
 ## Functions
 ## -----------------------------------------------------------------------------
 SSD::isSSD() {
@@ -50,32 +45,24 @@ SSD::supportTRIM() {
 
 SSD::optimizeSSD() {
 
-    # Parameters
-    if (( $# != 1 )) || [ -z "$1" ]; then
-       String::error "Usage: Install::optimizeSSD <fstrim cron file path>"
-        return 1
-    fi
-
     # Init
     local -i iReturn=1
-    local -a aFiles=("/usr/share/doc/util-linux/examples/fstrim.service" "/usr/share/doc/util-linux/examples/fstrim.timer")
-    local sFile=""
 
     # Do the job
-    if [[ -f $1 ]] || [ -f /etc/systemd/system/fstrim.timer ]; then
-       String::success "\tSSD already optimized"
+    SSD::isSSD
+    iReturn=$?
+    ((0!=iReturn)) && return 0
+
+    SSD::supportTRIM
+    iReturn=$?
+    ((0!=iReturn)) && return 0
+
+    systemctl enable fstrim.timer
+    iReturn=$?
+    if (( 0 == iReturn )); then
+       String::success "\tSSD optimized"
     else
-        for sFile in "${aFiles[@]}"
-        do
-            FileSystem::copyFile "${sFile}" "/etc/systemd/system"
-        done
-        systemctl enable fstrim.timer
-        iReturn=$?
-        if (( 0 == iReturn )); then
-           String::success "\tSSD optimized"
-        else
-           String::error "\tSSD not optimized"
-        fi
+       String::error "\tSSD not optimized"
     fi
 
     return ${iReturn}
