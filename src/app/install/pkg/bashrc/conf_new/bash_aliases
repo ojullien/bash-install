@@ -1,0 +1,21 @@
+# Add Timestamp To Command History.
+HISTTIMEFORMAT="%F %T: "
+
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+force_color_prompt=yes
+
+# enable color support of ls and also add handy aliases
+alias dir='dir --color=auto'
+alias vdir='vdir --color=auto'
+
+# Security aliases
+alias rm="rm -i"
+alias cp="cp -i"
+alias mv="mv -i"
+
+# set PATH so it includes https://github.com/ojullien/Shell tools
+if [ -d "/opt/oju/bash/bin" ]; then
+    PATH="$PATH:/opt/oju/bash/bin"
+fi
