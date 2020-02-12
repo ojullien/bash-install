@@ -61,6 +61,13 @@ String::notice "The PID for $(basename "$0") process is: $$"
 Console::waitUser
 
 ## -----------------------------------------------------------------------------
+## Install first need packages
+## -----------------------------------------------------------------------------
+String::separateLine
+Package::install --yes --quiet ${m_INSTALL_PACKAGES_FIRST}
+Console::waitUser
+
+## -----------------------------------------------------------------------------
 ## Release codename
 ## -----------------------------------------------------------------------------
 declare -i iReturn=0
@@ -74,7 +81,7 @@ fi
 ## Configures sources file
 ## -----------------------------------------------------------------------------
 String::separateLine
-shellcheck source=/dev/null
+# shellcheck source=/dev/null
 . "${m_DIR_APP}/install/pkg/sources.list/pkg.sh"
 String::notice "Configuring sources.list ..."
 SourcesList::configure "${sReleaseCodename}"
@@ -119,39 +126,15 @@ Package::install --yes --quiet ${m_INSTALL_PACKAGES_APP}
 Console::waitUser
 
 ## -----------------------------------------------------------------------------
-## Configures .bashrc
+## Configures .bashrc and .bash_aliases
 ## -----------------------------------------------------------------------------
 String::separateLine
 # shellcheck source=/dev/null
 . "${m_DIR_APP}/install/pkg/bashrc/pkg.sh"
-String::notice "Configuring .bashrc ..."
+String::notice "Configuring .bashrc and .bash_aliases ..."
 BashRC::configure
 iReturn=$?
-String::notice -n "Configure .bashrc:"
-String::checkReturnValueForTruthiness ${iReturn}
-Console::waitUser
-
-## -----------------------------------------------------------------------------
-## Configures .bash_aliases
-## -----------------------------------------------------------------------------
-String::separateLine
-String::notice "Configuring .bash_aliases ..."
-BashRC::configureAliases
-iReturn=$?
-String::notice -n "Configure .bash_aliases:"
-String::checkReturnValueForTruthiness ${iReturn}
-Console::waitUser
-
-## -----------------------------------------------------------------------------
-## Configures .profile
-## -----------------------------------------------------------------------------
-String::separateLine
-# shellcheck source=/dev/null
-. "${m_DIR_APP}/install/pkg/profile/pkg.sh"
-String::notice "Configuring .profile ..."
-Profile::configure
-iReturn=$?
-String::notice -n "Configure .profile:"
+String::notice -n "Configures .bashrc and .bash_aliases:"
 String::checkReturnValueForTruthiness ${iReturn}
 Console::waitUser
 
@@ -208,18 +191,8 @@ String::separateLine
 # shellcheck source=/dev/null
 . "${m_DIR_APP}/install/pkg/ssd/pkg.sh"
 String::notice "Optimizing SSD ..."
-SSD::isSSD
+SSD::optimizeSSD
 iReturn=$?
-if ((0 == iReturn )); then
-    SSD::supportTRIM
-    iReturn=$?
-    if ((0 == iReturn )); then
-        SSD::optimizeSSD ${m_INSTALL_SSD_FSTRIM_CRON}
-        iReturn=$?
-    fi
-else
-    iReturn=0
-fi
 String::notice -n "Optimize SSD:"
 String::checkReturnValueForTruthiness ${iReturn}
 Console::waitUser
