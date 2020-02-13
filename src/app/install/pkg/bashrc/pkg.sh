@@ -10,49 +10,16 @@
 ## Constants
 ## -----------------------------------------------------------------------------
 readonly m_INSTALL_BASHRC_DIR_REALPATH="${m_INSTALL_DIR_REALPATH}/pkg/bashrc"
-readonly m_INSTALL_BASHRC_FILENAME="bashrc"
 readonly m_INSTALL_BASHALIASES_FILENAME="bash_aliases"
 
 ## -----------------------------------------------------------------------------
 ## Functions
 ## -----------------------------------------------------------------------------
-BashRC::configure() {
-
-    # Init
-    local sUser="" sCurrent=""
-    local -i iReturn=1
-
-    # Save current root conf
-    sCurrent="/root/.${m_INSTALL_BASHRC_FILENAME}"
-    FileSystem::moveFile "${sCurrent}" "${m_INSTALL_BASHRC_DIR_REALPATH}/conf_saved/${m_DATE}_root_${m_INSTALL_BASHRC_FILENAME}"
-
-    # Install new root conf
-    FileSystem::copyFile "${m_INSTALL_BASHRC_DIR_REALPATH}/conf_new/root" "${sCurrent}"
-    iReturn=$?
-    ((0!=iReturn)) && return ${iReturn}
-
-    # Save current users conf and install new ones
-    for sUser in "${m_INSTALL_USERS[@]}"; do
-        sCurrent="/home/${sUser}/.${m_INSTALL_BASHRC_FILENAME}"
-        FileSystem::moveFile "${sCurrent}" "${m_INSTALL_BASHRC_DIR_REALPATH}/conf_saved/${m_DATE}_${sUser}_${m_INSTALL_BASHRC_FILENAME}"
-        FileSystem::copyFile "${m_INSTALL_BASHRC_DIR_REALPATH}/conf_new/user" "${sCurrent}"
-        iReturn=$?
-        ((0!=iReturn)) && return ${iReturn}
-        String::notice -n "Changing owner:"
-        chown "${sUser}":"${sUser}" "${sCurrent}"
-        iReturn=$?
-        String::checkReturnValueForTruthiness ${iReturn}
-        ((0!=iReturn)) && return ${iReturn}
-    done
-
-    return ${iReturn}
-}
-
-BashRC::configureUserAliases() {
+BashRC::configureAliases() {
 
     # Parameters
     if (( $# != 2 )) || [[ -z "$1" ]] || [[ -z "$2" ]]; then
-        String::error "Usage: BashRC::configureUserAliases <user> <home path>"
+        String::error "Usage: BashRC::configureAliases <user> <home path>"
         return 1
     fi
 
@@ -65,11 +32,9 @@ BashRC::configureUserAliases() {
 
     # Do the job
     String::notice "Configuring ${sCurrent} ..."
-    echo "alias rm=\"rm -i\"" | tee -a "${sCurrent}" > /dev/null 2>&1
-    echo "alias cp=\"cp -i\"" | tee -a "${sCurrent}" > /dev/null 2>&1
-    echo "alias mv=\"mv -i\"" | tee -a "${sCurrent}" > /dev/null 2>&1
-    String::notice -n "Configure ${sCurrent}:"
-    String::success "OK"
+    FileSystem::copyFile "${m_INSTALL_BASHRC_DIR_REALPATH}/conf_new/${m_INSTALL_BASHALIASES_FILENAME}" "${sCurrent}"
+    iReturn=$?
+    ((0!=iReturn)) && return ${iReturn}
 
     String::notice -n "Changing owner:"
     chown "${sUser}":"${sUser}" "${sCurrent}"
@@ -79,20 +44,23 @@ BashRC::configureUserAliases() {
     return ${iReturn}
 }
 
-BashRC::configureAliases() {
+BashRC::configure() {
 
     # Init
     local sUser=""
     local -i iReturn=1
 
+    # Do the job
+    String::notice "Configuring .bash_aliases ..."
+
     # Configure bash_aliases for root
-    BashRC::configureUserAliases "root" "/root"
+    BashRC::configureAliases "root" "/root"
     iReturn=$?
     ((0!=iReturn)) && return ${iReturn}
 
     # Configure bash_aliases for users
     for sUser in "${m_INSTALL_USERS[@]}"; do
-        BashRC::configureUserAliases "${sUser}" "/home/${sUser}"
+        BashRC::configureAliases "${sUser}" "/home/${sUser}"
         iReturn=$?
         ((0!=iReturn)) && return ${iReturn}
     done
