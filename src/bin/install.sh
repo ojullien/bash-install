@@ -170,10 +170,23 @@ Console::waitUser
 String::separateLine
 # shellcheck source=/dev/null
 . "${m_DIR_APP}/install/pkg/vimrc/pkg.sh"
-String::notice "Updating vimrc.local ..."
+String::notice "Updating Vim ..."
 VimRC::configure
 iReturn=$?
 String::notice -n "Configure vimrc.local:"
+String::checkReturnValueForTruthiness ${iReturn}
+Console::waitUser
+
+## -----------------------------------------------------------------------------
+## Fail2ban
+## -----------------------------------------------------------------------------
+String::separateLine
+# shellcheck source=/dev/null
+. "${m_DIR_APP}/install/pkg/fail2ban/pkg.sh"
+String::notice "Updating fail2ban ..."
+Fail2Ban::configure
+iReturn=$?
+String::notice -n "Configure fail2ban:"
 String::checkReturnValueForTruthiness ${iReturn}
 Console::waitUser
 
