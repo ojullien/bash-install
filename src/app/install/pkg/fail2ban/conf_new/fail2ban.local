@@ -1,0 +1,16 @@
+# Fail2Ban user local configuration file
+# 2019-apr-06, Olivier Jullien <https://github.com/ojullien>
+
+[Definition]
+
+# Option: loglevel
+# Notes.: Set the log level output.
+#         CRITICAL
+#         ERROR
+#         WARNING
+#         NOTICE
+#         INFO
+#         DEBUG
+# Values: [ LEVEL ]  Default: ERROR
+#
+loglevel = WARNING
