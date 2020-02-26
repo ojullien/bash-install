@@ -23,9 +23,9 @@ Ppa::configure() {
     iReturn=$?
     ((0!=iReturn)) && return ${iReturn}
 
-    add-apt-repository --yes --no-update ppa:ondrej/apache2
-    iReturn=$?
-    ((0!=iReturn)) && return ${iReturn}
+#    add-apt-repository --yes --no-update ppa:ondrej/apache2
+#    iReturn=$?
+#    ((0!=iReturn)) && return ${iReturn}
 
     add-apt-repository --yes ppa:ondrej/php
     iReturn=$?
