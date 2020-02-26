@@ -10,7 +10,7 @@
 ## Constants
 ## -----------------------------------------------------------------------------
 readonly m_INSTALL_FAIL2BAN_DIR_REALPATH="${m_INSTALL_DIR_REALPATH}/pkg/fail2ban"
-readonly m_INSTALL_FAIL2BAN_SYS="/etc/fail2ban/"
+readonly m_INSTALL_FAIL2BAN_SYS="/etc/fail2ban"
 
 ## -----------------------------------------------------------------------------
 ## Functions
