@@ -50,5 +50,9 @@ LogWatch::configure() {
     iReturn=$?
     String::checkReturnValueForTruthiness ${iReturn}
 
+    # Creates missing folder
+    FileSystem::createDirectory "/var/cache/logwatch"
+    iReturn=$?
+
     return ${iReturn}
 }
