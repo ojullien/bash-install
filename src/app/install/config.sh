@@ -22,7 +22,7 @@ readonly m_INSTALL_USERS=("<user>") # You may want to update this !!!
 ## -----------------------------------------------------
 readonly m_INSTALL_PACKAGES_FIRST="lsb-release"
 readonly m_INSTALL_PACKAGES_PURGE="vim-tiny"
-readonly m_INSTALL_PACKAGES_SYSTEM="dkms build-essential util-linux deborphan localepurge hdparm htop ntp tzdata ntpdate debsums"
+readonly m_INSTALL_PACKAGES_SYSTEM="dkms build-essential util-linux deborphan localepurge hdparm htop ntp tzdata ntpdate debsums add-apt-repository"
 readonly m_INSTALL_PACKAGES_SYSTEM_NORECOMMENDS="--no-install-recommends smartmontools"
 readonly m_INSTALL_PACKAGES_APP="vim fail2ban ftp mlocate chkrootkit logwatch"
 

@@ -211,6 +211,19 @@ String::checkReturnValueForTruthiness ${iReturn}
 Console::waitUser
 
 ## -----------------------------------------------------------------------------
+## PPA
+## -----------------------------------------------------------------------------
+String::separateLine
+# shellcheck source=/dev/null
+. "${m_DIR_APP}/install/pkg/ppa/pkg.sh"
+String::notice "Updating PPA ..."
+Ppa::configure
+iReturn=$?
+String::notice -n "Configure PPA:"
+String::checkReturnValueForTruthiness ${iReturn}
+Console::waitUser
+
+## -----------------------------------------------------------------------------
 ## END
 ## -----------------------------------------------------------------------------
 String::notice "Now is: $(date -R)"
