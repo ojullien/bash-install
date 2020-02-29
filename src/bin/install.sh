@@ -191,13 +191,6 @@ String::checkReturnValueForTruthiness ${iReturn}
 Console::waitUser
 
 ## -----------------------------------------------------------------------------
-## Mlocate
-## -----------------------------------------------------------------------------
-String::separateLine
-Install::updateMlocate
-Console::waitUser
-
-## -----------------------------------------------------------------------------
 ## Optimize SSD
 ## -----------------------------------------------------------------------------
 String::separateLine
@@ -224,7 +217,22 @@ String::checkReturnValueForTruthiness ${iReturn}
 Console::waitUser
 
 ## -----------------------------------------------------------------------------
+## Mlocate
+## -----------------------------------------------------------------------------
+String::separateLine
+Install::updateMlocate
+Console::waitUser
+
+## -----------------------------------------------------------------------------
+## Time synchronization
+## -----------------------------------------------------------------------------
+String::separateLine
+Install::synchronizeTime
+Console::waitUser
+
+## -----------------------------------------------------------------------------
 ## END
 ## -----------------------------------------------------------------------------
-String::notice "Now is: $(date -R)"
+String::notice "Now is: "
+timedatectl status
 exit 0
