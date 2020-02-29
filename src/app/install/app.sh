@@ -37,3 +37,20 @@ Install::updateMlocate() {
 
     return ${iReturn}
 }
+
+## -----------------------------------------------------------------------------
+## Time synchronization
+## -----------------------------------------------------------------------------
+Install::synchronizeTime() {
+
+    # Init
+    local -i iReturn=1
+
+    # Do the job
+    String::notice -n "Time synchronization:"
+    timedatectl set-ntp true
+    iReturn=$?
+    String::checkReturnValueForTruthiness ${iReturn}
+
+    return ${iReturn}
+}
