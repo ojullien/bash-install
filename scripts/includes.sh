@@ -19,6 +19,8 @@ Install::trace() {
 
 Install::run() {
 
+    local -i iReturn=0
+
     String::separateLine
 
     if ((m_INSTALL_OPTION_REMOVE)); then
